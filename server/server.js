@@ -14,10 +14,10 @@ const app = express();
 const server = http.createServer(app);
 
 const PUSHPAY_API_KEY = "sua_chave_secreta_da_api_do_pushpay_aqui";
-const BASE_URL = 'https://anabeatrizconversar.netlify.app/';
+const BASE_URL = 'https://wpp-x1-backend.onrender.com';
 
 const allowedOrigins = [
-  'https://wpp-x1-backend.onrender.com',
+  'https://anabeatrizconversar.netlify.app/',
   'http://localhost:3000'
 ];
 
