@@ -17,7 +17,7 @@ const PUSHPAY_API_KEY = "sua_chave_secreta_da_api_do_pushpay_aqui";
 const BASE_URL = 'https://wpp-x1-backend.onrender.com';
 
 const allowedOrigins = [
-  'https://whastapp-thaisinha.netlify.app',
+  'https://wpp-x1-backend.onrender.com',
   'http://localhost:3000'
 ];
 
