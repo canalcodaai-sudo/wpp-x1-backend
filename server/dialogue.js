@@ -1,6 +1,6 @@
 // dialogue.js - VERSÃO CORRIGIDA (3 Botões + Imagens Inseridas)
 
-const BASE_URL = 'https://whatsapp-backend-vott.onrender.com';
+const BASE_URL = 'https://wpp-x1-backend.onrender.com';
 
 const dialogue = {
   // Estado 1: Início
