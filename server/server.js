@@ -20,7 +20,7 @@ const BASE_URL = 'https://wpp-x1-backend.onrender.com';
 // CORREÇÃO 1: Adicionado o novo site do Netlify
 // ------------------------------------------------------------------
 const allowedOrigins = [
-  'https://anabeatrizconversar.netlify.app', // <--- SEU NOVO SITE AQUI
+  'https://conversarcomanabeatriz.netlify.app', // <--- SEU NOVO SITE AQUI
   'http://localhost:3000'
 ];
 
