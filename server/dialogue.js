@@ -1,98 +1,112 @@
-// dialogue.js - VERSÃO FINAL CORRIGIDA
+// dialogue.js - VERSÃO CORRIGIDA (3 Botões + Imagens Inseridas)
 
 const BASE_URL = 'https://whatsapp-backend-vott.onrender.com';
 
 const dialogue = {
+  // Estado 1: Início
   START: {
-    messages: [ { type: 'audio', content: BASE_URL + '/audios/audio01.mp3', delay: 1000 } ],
-    response: { type: 'text', next: 'AWAITING_CITY' }
-  },
-  AWAITING_CITY: {
     messages: [
-      { type: 'audio', content: BASE_URL + '/audios/audio02.mp3', delay: 5000 },
-      { type: 'image_with_location', content: {}, delay: 2500 },
-      { type: 'text', content: 'Sou aqui de {{city}}', delay: 4000 },
-      { type: 'text', content: 'Me diz de qual cidade você é amor 🥰😈', delay: 2000 }
-    ],
-    response: { type: 'text', next: 'AWAITING_ROMANCE_CHOICE' }
-  },
-  AWAITING_ROMANCE_CHOICE: {
-    messages: [
-      { type: 'audio', content: BASE_URL + '/audios/audio03.mp3', delay: 7000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio04.mp3', delay: 3000 }
+      { type: 'text', content: 'Oiee, tudo bem? Muito prazer amor, me chamo Milla, tenho 23 aninhos!!!', delay: 1000 },
+      // ATENÇÃO: Baixar e hospedar áudio 1
+      { type: 'audio', content: BASE_URL + '/audios/audio_milla_01.mp3', delay: 1000 },
+      { type: 'text', content: 'Posso te falar mais amor?', delay: 3000 }
     ],
     response: {
       type: 'buttons',
       options: [
-        { text: "Sou mais safado", payload: "SELECT_NAUGHTY", next: 'NAUGHTY_PATH' },
-        { text: "Sou mais Romântico", payload: "SELECT_CARING", next: 'CARING_PATH' }
+        { text: "Pode Sim!", payload: "CAN_CONTINUE", next: 'STEP_2_INTRO' }
       ]
     }
   },
-  NAUGHTY_PATH: {
-    messages: [ { type: 'audio', content: BASE_URL + '/audios/audio05.mp3', delay: 14000 } ],
-    response: { type: 'continue', next: 'POST_CHOICE_AUDIO' }
-  },
-  CARING_PATH: {
-    messages: [ { type: 'audio', content: BASE_URL + '/audios/audio06.mp3', delay: 11000 } ],
-    response: { type: 'continue', next: 'POST_CHOICE_AUDIO' }
-  },
-  POST_CHOICE_AUDIO: {
-    messages: [ { type: 'audio', content: BASE_URL + '/audios/audio07.mp3', delay: 15000 } ],
-    response: { type: 'continue', next: 'AWAITING_CONFIRM_JOIN' }
-  },
-  AWAITING_CONFIRM_JOIN: {
-    messages: [ { type: 'audio', content: BASE_URL + '/audios/audio08.mp3', delay: 4000 } ],
-    response: {
-      type: 'buttons',
-      options: [ { text: "Entro sim meu amor ❤️", payload: "CONFIRM_JOIN", next: 'AWAITING_NO_OBJECTION' } ]
-    }
-  },
-  AWAITING_NO_OBJECTION: {
+
+  // Estado 2: Intro + Imagens
+  STEP_2_INTRO: {
     messages: [
-      { type: 'audio', content: BASE_URL + '/audios/audio09.mp3', delay: 13000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio10.mp3', delay: 6000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio13.mp3', delay: 3000 },
-      { type: 'image', content: 'https://midia.jdfnu287h7dujn2jndjsifd.com/oi6gtpxvamkpw9g2661pohgv.jpeg', delay: 2500 },
+      // ATENÇÃO: Baixar e hospedar áudio 2
+      { type: 'audio', content: BASE_URL + '/audios/audio_milla_02.mp3', delay: 4000 },
+      
+      // --- IMAGEM 1 INSERIDA ---
+      { type: 'image', content: 'https://i.imgur.com/v5GSg9V.jpeg', delay: 1000 },
+      
+      { type: 'text', content: 'Comigo você não perde nunca bb ta?', delay: 4000 },
+      { type: 'text', content: 'Vou te mandar a última amostrinha pra vc ver o que tem no meu conteúdo hein', delay: 1000 },
+      
+      // --- IMAGEM 2 INSERIDA ---
+      { type: 'image', content: 'https://i.imgur.com/gCermtU.jpeg', delay: 1000 },
+      
+      { type: 'text', content: 'Então amor estou pedindo só uma ajudinha para poder pagar minha FACULDADE. Você vai me ajudar hoje?', delay: 1000 }
     ],
     response: {
       type: 'buttons',
-      options: [ { text: "Combinado❤️", payload: "CONFIRM_COMBINED", next: 'AWAITING_COMBINED' } ]
+      options: [
+        { text: "SIM, VOU", payload: "WILL_HELP", next: 'STEP_3_PROMO' }
+      ]
     }
   },
-  AWAITING_COMBINED: {
+
+  // Estado 3: Promo Exclusivo
+  STEP_3_PROMO: {
     messages: [
-      { type: 'audio', content: BASE_URL + '/audios/audio15.mp3', delay: 8000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio16.mp3', delay: 13000 }
+      // ATENÇÃO: Baixar e hospedar áudio 3
+      { type: 'audio', content: BASE_URL + '/audios/audio_milla_03.mp3', delay: 1000 },
+      { type: 'text', content: 'Mas eu preciso saber se você realmente tem interesse em meus conteúdos EXCLUSIVOS que eu fiz recentemente...🔞😈  ', delay: 1000 }
     ],
     response: {
       type: 'buttons',
-      options: [ { text: "Entendi meu amor❤️", payload: "CONFIRM_UNDERSTOOD", next: 'AWAITING_ENTER_CLUB' } ]
+      options: [
+        { text: "Quero sim ver você no EXCLUSIVO", payload: "WANT_EXCLUSIVE", next: 'STEP_4_EXCLUSIVE' }
+      ]
     }
   },
-  AWAITING_ENTER_CLUB: {
+
+  // Estado 4: Botões de Preço (APENAS OS 3 ORIGINAIS)
+  STEP_4_EXCLUSIVE: {
     messages: [
-      { type: 'audio', content: BASE_URL + '/audios/audio17.mp3', delay: 6000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio18.mp3', delay: 17000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio19.mp3', delay: 2000 },
-      { type: 'gif', content: 'https://midia.jdfnu287h7dujn2jndjsifd.com/ohjlvxht3us81l3l5c6sckxx.gif', delay: 3000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio20.mp3', delay: 8000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio21.mp3', delay: 9000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio22.mp3', delay: 4000 },
-      { type: 'audio', content: BASE_URL + '/audios/audio23.mp3', delay: 11000 }
+      { type: 'text', content: 'Você não vai se arrepender de me ver toda peladinha e dando o cuzinho 🔥  ', delay: 2000 },
+      
+      // --- ATENÇÃO: IMAGEM 3 AINDA FALTA ---
+      { type: 'image', content: 'URL_DA_IMAGEM_3_AQUI', delay: 1000 },
+      
+      { type: 'text', content: 'Agora só você escolher qual dos PACOTINHOS você quer e CLICAR NO BOTÃO ABAIXO 👇🏻... ', delay: 4000 }
     ],
     response: {
       type: 'buttons',
-      // AQUI ESTAVA O ERRO, AGORA ESTÁ CORRIGIDO:
-      options: [ { text: "ENTRAR NO CLUBE SECRETO 🔥", payload: "ENTER_CLUB", next: 'OPEN_WHATSAPP' } ] // <-- CORRIGIDO AQUI
+      options: [
+        // Botão 1 (Original)
+        { text: "5 FOTOS E 7 VÍDEOS R$ 10,00", payload: "SELECT_10", next: 'REDIRECT_10' },
+        
+        // Botão 2 (Original)
+        { text: "20 FOTOS + 25 VÍDEOS + CHAMADA DE VÍDEO 19,00", payload: "SELECT_17", next: 'REDIRECT_17' },
+        
+        // Botão 3 (Original)
+        { text: "TODO O MEU CONTEÚDO + CHAMADA DE VÍDEO 49,00", payload: "SELECT_49", next: 'REDIRECT_49' }
+      ]
     }
   },
-  OPEN_WHATSAPP: {
+
+  // --- ESTADOS DE REDIRECT ---
+
+  REDIRECT_10: {
     action: {
       type: 'redirect',
-      url: 'https://gruposecreto69.netlify.app/'
+      url: 'https://wa.me/5592984779395?text=Quero%20comprar%20o%20pack%20de%2010%20reais%20amorzinho'
+    }
+  },
+
+  REDIRECT_17: {
+    action: {
+      type: 'redirect',
+      url: 'https://wa.me/5592984779395?text=Quero%20comprar%20o%20pack%20de%2019%20reais%20amorzinho'
+    }
+  },
+
+  REDIRECT_49: {
+    action: {
+      type: 'redirect',
+      url: 'https://wa.me/5592984779395?text=Quero%20comprar%20o%20pack%20de%2049%20reais%20amorzinho'
     }
   }
+  // O REDIRECT_97 FOI REMOVIDO
 };
 
 module.exports = dialogue;
