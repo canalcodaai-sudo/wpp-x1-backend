@@ -65,7 +65,7 @@ const dialogue = {
       { type: 'text', content: 'Você não vai se arrepender de me ver toda peladinha e dando o cuzinho 🔥  ', delay: 2000 },
       
       // --- ATENÇÃO: IMAGEM 3 AINDA FALTA ---
-      { type: 'image', content: 'URL_DA_IMAGEM_3_AQUI', delay: 1000 },
+      { type: 'image', content: 'https://i.imgur.com/1XZMjkC.png', delay: 1000 },
       
       { type: 'text', content: 'Agora só você escolher qual dos PACOTINHOS você quer e CLICAR NO BOTÃO ABAIXO 👇🏻... ', delay: 4000 }
     ],
