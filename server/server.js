@@ -1,4 +1,4 @@
-// server.js - VERSÃO COM ANALYTICS MAS SEM QUEBRAR O QUE JÁ FUNCIONA
+// server.js - VERSÃO CORRIGIDA (CORS + Analytics)
 
 const express = require('express');
 const http = require('http');
@@ -13,30 +13,32 @@ const bodyParser = require('body-parser');
 const app = express();
 const server = http.createServer(app);
 
-const PUSHPAY_API_KEY = "sua_chave_secreta_da_api_do_pushpay_aqui";
+const PUSHPAY_API_KEY = "sua_chave_seKcreta_da_api_do_pushpay_aqui";
 const BASE_URL = 'https://wpp-x1-backend.onrender.com';
 
+// ------------------------------------------------------------------
+// CORREÇÃO 1: Adicionado o novo site do Netlify
+// ------------------------------------------------------------------
 const allowedOrigins = [
-  'https://anabeatrizconversar.netlify.app/',
+  'https://anabeatrizconversar.netlify.app', // <--- SEU NOVO SITE AQUI
   'http://localhost:3000'
 ];
 
-// Banco de dados em memória (só pros analytics)
+// ------------------------------------------------------------------
+// CORREÇÃO 2: Analytics ajustados para o funil real
+// ------------------------------------------------------------------
 const analyticsDB = {
   sessions: {},
   funnel: {
+    // Estas são as etapas CORRETAS do seu dialogue.js
     START: 0,
-    AWAITING_CITY: 0,
-    AWAITING_ROMANCE_CHOICE: 0,
-    NAUGHTY_PATH: 0,
-    CARING_PATH: 0,
-    POST_CHOICE_AUDIO: 0,
-    AWAITING_CONFIRM_JOIN: 0,
-    AWAITING_NO_OBJECTION: 0,
-    AWAITING_COMBINED: 0,
-    AWAITING_ENTER_CLUB: 0,
-    AWAITING_WANT_TO_ENTER: 0,
-    OPEN_WHATSAPP: 0
+    STEP_2_INTRO: 0,
+    STEP_3_PROMO: 0,
+    STEP_4_EXCLUSIVE: 0,
+    // Vamos rastrear os cliques de redirect como conversões
+    REDIRECT_10: 0,
+    REDIRECT_17: 0,
+    REDIRECT_49: 0
   },
   conversions: {
     totalLeads: 0,
@@ -152,10 +154,17 @@ function trackEvent(socketId, eventType, data = {}) {
       analyticsDB.funnel[data.step]++;
     }
     
-    if (data.step === 'OPEN_WHATSAPP') {
-      session.completed = true;
-      session.endTime = new Date().toISOString();
-      analyticsDB.conversions.completedFunnel++;
+    // ------------------------------------------------------------------
+    // CORREÇÃO 3: Lógica de conversão ajustada
+    // ------------------------------------------------------------------
+    // Se o passo for um dos redirects, conta como funil completo
+    if (data.step === 'REDIRECT_10' || data.step === 'REDIRECT_17' || data.step === 'REDIRECT_49') {
+      // Só conta a primeira vez que ele completa
+      if (!session.completed) {
+        session.completed = true;
+        session.endTime = new Date().toISOString();
+        analyticsDB.conversions.completedFunnel++;
+      }
     }
   }
 }
@@ -183,7 +192,7 @@ async function sendBotMessages(socket, stepKey) {
   const step = dialogue[stepKey];
   if (!step) return;
 
-  // SÓ ADICIONEI ESSA LINHA PRA TRACKING
+  // LINHA DE TRACKING (correta)
   trackEvent(socket.id, 'step_change', { 
     step: stepKey,
     ip: userState.ip,
@@ -234,7 +243,7 @@ io.on('connection', async (socket) => {
   }
   userSessions[socket.id] = userState;
 
-  // SÓ ADICIONEI ESSA LINHA PRA TRACKING
+  // LINHA DE TRACKING (correta)
   trackEvent(socket.id, 'session_start', {
     ip: finalIp,
     city: userState.city
@@ -270,7 +279,7 @@ io.on('connection', async (socket) => {
 
   socket.on('disconnect', () => {
     console.log(`❌ Usuário desconectado: ${socket.id}`);
-    // SÓ ADICIONEI ESSA LINHA PRA TRACKING
+    // LINHA DE TRACKING (correta)
     trackEvent(socket.id, 'session_end', {
       step: userSessions[socket.id]?.conversationStep
     });
